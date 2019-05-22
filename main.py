@@ -12,8 +12,50 @@
 
 import click
 
+class MyAppExceptions(ValueError):
+    pass
+
+class PassToShortException(MyAppExceptions):
+    pass
+
+class StartsWithAException(MyAppExceptions):
+    pass
+
+class OutOfRangeException(MyAppExceptions):
+    pass
+
+
+
+def validatePass(password):
+    if len(password) < 3:
+        raise  PassToShortException
+    if password.startswith('A'):
+        raise StartsWithAException
+
+def validateNum(number):
+    if number < 1 or number > 4:
+        raise OutOfRangeException
+
+
+
 input = ""
 
-input = click.prompt('Enter your name ', type=str)
-
+input = click.prompt('Enter your password ', type=str)
 print(input)
+
+try:
+    validatePass(input)
+except PassToShortException:
+    print("Password needs to be longer")
+except StartsWithAException:
+    print("Password cannot start with A")
+
+
+input = click.prompt("Choose a number: \n1, 2, 3, 4 \n", type=int)
+validateNum(input)
+
+
+try:
+    validatePass(input)
+except OutOfRangeException:
+    print("U need to choose out of the avilable numbers")
